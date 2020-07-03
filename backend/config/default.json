@@ -1,0 +1,4 @@
+{
+    "mongoURL": "mongodb+srv://frixacoder:elps1kongr0@cluster0-2a05m.gcp.mongodb.net/chat?retryWrites=true&w=majority",
+    "jwtSecret": "rezero"
+}
