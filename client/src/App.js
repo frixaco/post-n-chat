@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { logoutUser } from './redux/user/userActions';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Home from './components/Home/Home';
-import Profile from './components/Profile/Profile';
+import Home from './pages/Home/Home';
+import Profile from './pages/Profile/Profile';
 import LoginRegister from './pages/LoginRegister/LoginRegister';
 
 function App({ username, isAuthenticated, validUntil, logoutUser }) {

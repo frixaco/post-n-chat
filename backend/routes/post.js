@@ -1,18 +1,7 @@
 const router = require('express').Router()
 const Post = require('../models/Post')
-const User = require('../models/User')
 const auth = require('../middleware/auth')
 
-// router.post('/', auth, async (req, res) => {
-//     try {
-//         const post = new Post({ ...req.body })
-//         await post.save()
-
-//         res.status(201).json({ post, msg: 'Post successfully created!' })
-//     } catch (e) {
-//         res.status(500).json({ msg: 'Something went wrong in the server!' })
-//     }
-// })
 
 router.post('/my', auth, async (req, res) => {
     try {
@@ -23,14 +12,24 @@ router.post('/my', auth, async (req, res) => {
     }
 })
 
-// router.get('/all', auth, async (req, res) => {
-//     try {
-//         const posts = await Post.find({})
-//         res.json({ posts })
-//     } catch (e) {
-//         res.status(500).json({ msg: 'Something went wrong in the server!' })
-//     }
-// })
+router.post('/', auth, async (req, res) => {
+    try {
+        const newPost = new Post(req.body)
+        await newPost.save()
+        res.json({ msg: 'Post created successfully!' });
+    } catch (err) {
+        res.status(500).json({ msg: 'Something went wrong in the server!' })
+    }
+})
+
+router.get('/', auth, async (req, res) => {
+    try {
+        const posts = await Post.find({})
+        res.json({ posts })
+    } catch (e) {
+        res.status(500).json({ msg: 'Something went wrong in the server!' })
+    }
+})
 
 // router.get('/:id', auth, async (req, res) => {
 //     try {
