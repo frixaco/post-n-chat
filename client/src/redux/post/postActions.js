@@ -57,18 +57,51 @@ export const initialPostsFetchAsync = () => {
         dispatch(initialPostsFetchStarted());
         Axios.get('/post')
             .then(response => {
-                dispatch(initialPostsFetchSuccess(response.data.posts))
+                dispatch(initialPostsFetchSuccess(response.data.posts.reverse()))
             }).catch(err => dispatch(initialPostsFetchFailure(err.message)));
     }
 }
 
 
-export const updatePost = post => ({
-    type: PostActionTypes.UPDATE_POST,
+export const editPostStart = () => ({
+    type: PostActionTypes.EDIT_POST_START,
+});
+export const editPostSuccess = post => ({
+    type: PostActionTypes.EDIT_POST_SUCCESS,
     payload: post
 });
-
-export const deletePost = postId => ({
-    type: PostActionTypes.DELETE_POST,
-    payload: postId
+export const editPostFailure = errMessage => ({
+    type: PostActionTypes.EDIT_POST_FAILURE,
+    payload: errMessage
 });
+export const editPostAsync = post => {
+    console.log('Incoming edited post and its id:', post, post._id)
+    return dispatch => {
+        dispatch(editPostStart())
+        Axios.post(`/post/${post._id}`, post)
+            .then(response => {
+                dispatch(editPostSuccess(post))
+            }).catch(err => dispatch(editPostFailure(err.message)))
+    }
+}
+
+export const deletePostStart = () => ({
+    type: PostActionTypes.DELETE_POST_START,
+});
+export const deletePostSuccess = postid => ({
+    type: PostActionTypes.DELETE_POST_SUCCESS,
+    payload: postid
+})
+export const deletePostFailure = errMessage => ({
+    type: PostActionTypes.DELETE_POST_FAILURE,
+    payload: errMessage
+})
+export const deletePostAsync = postid => {
+    return dispatch => {
+        dispatch(deletePostStart())
+        Axios.delete(`/post/${postid}`)
+            .then(() => {
+                dispatch(deletePostSuccess(postid))
+            }).catch(err => dispatch(deletePostFailure(err.message)))
+    }
+}

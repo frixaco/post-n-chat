@@ -43,7 +43,6 @@ function Posts({ createPostAsync, username, initialPostsFetchAsync }) {
             imglink: postForm.imglink,
             date: new Date().toLocaleString(),
         }
-        console.log('newPost Posts component', newPost)
         createPostAsync(newPost)
     }
 

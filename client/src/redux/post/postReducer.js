@@ -59,15 +59,35 @@ const postReducer = (state = INITIAL_STATE, action) => {
                 areFetching: false,
                 errMessage: action.payload
             };
-        case PostActionTypes.EDIT_POST:
+        case PostActionTypes.EDIT_POST_START:
             return {
                 ...state,
-                posts: state.posts.map(post => post.postId === action.payload.postId ? action.payload : post)
+                areFetching: true,
             }
-        case PostActionTypes.DELETE_POST:
+        case PostActionTypes.EDIT_POST_SUCCESS:
             return {
                 ...state,
-                posts: state.posts.filter(post => post.postId !== action.payload.postId)
+                posts: state.posts.map(post => post._id === action.payload._id ? action.payload : post)
+            }
+        case PostActionTypes.EDIT_POST_FAILURE:
+            return {
+                ...state,
+                errMessage: action.payload
+            }
+        case PostActionTypes.DELETE_POST_START:
+            return {
+                ...state,
+                areFetching: true
+            }
+        case PostActionTypes.DELETE_POST_SUCCESS:
+            return {
+                ...state,
+                posts: state.posts.filter(post => post._id !== action.payload)
+            }
+        case PostActionTypes.DELETE_POST_FAILURE:
+            return {
+                ...state,
+                errMessage: action.payload
             }
         default:
             return state;

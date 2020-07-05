@@ -22,6 +22,7 @@ router.post('/', auth, async (req, res) => {
     }
 })
 
+
 router.get('/', auth, async (req, res) => {
     try {
         const posts = await Post.find({})
@@ -31,28 +32,31 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
-// router.get('/:id', auth, async (req, res) => {
-//     try {
-//         const post = Post.findById(req.params.id)
-//         res.json({ post })
-//     } catch (e) {
-//         res.status(500).json({ msg: 'Something went wrong in the server!' })
-//     }
-// })
+router.post('/:id', auth, async (req, res) => {
+    try {
+        console.log(req.body);
+        const { title, content } = req.body;
+        const editedPost = await Post.findById(req.params.id);
 
-// router.post('/:id', auth, async (req, res) => {
-//     try {
-//         const { newTitle, newContent } = req.body;
-//         const post = Post.findById(req.params.id);
+        editedPost.title = title;
+        editedPost.content = content;
 
-//         post.title = newTitle;
-//         post.content = newContent;
+        await editedPost.save();
+        res.json({ post: editedPost });
+    } catch (e) {
+        res.status(500).json({ msg: 'Something went wrong in the server!' })
+    }
+})
 
-//         await post.save();
-//         res.json({ post });
-//     } catch (e) {
-//         res.status(500).json({ msg: 'Something went wrong in the server!' })
-//     }
-// })
+router.delete('/:id', async (req, res) => {
+    try {
+        await Post.deleteOne({ _id: req.params.id }, err => {
+            if (err) return console.log(err);
+        });
+        res.json({ msg: 'Post successfully deleted!' })
+    } catch (err) {
+        res.status(500).json({ msg: 'Something went wrong in the server!' })
+    }
+})
 
 module.exports = router
