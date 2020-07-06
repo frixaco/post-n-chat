@@ -16,7 +16,7 @@ router.post('/', auth, async (req, res) => {
     try {
         const newPost = new Post(req.body)
         await newPost.save()
-        res.json({ msg: 'Post created successfully!' });
+        res.json({ post: newPost });
     } catch (err) {
         res.status(500).json({ msg: 'Something went wrong in the server!' })
     }

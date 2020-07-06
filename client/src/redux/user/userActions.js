@@ -38,7 +38,20 @@ export const logoutUser = username => ({
 });
 
 
-export const updateUser = user => ({
-    type: UserActionTypes.UPDATE,
+export const updateUserSuccess = user => ({
+    type: UserActionTypes.UPDATE_PROFILE_SUCCESS,
     payload: user,
 });
+export const updateUserFailure = errMessage => ({
+    type: UserActionTypes.UPDATE_PROFILE_FAILURE,
+    payload: errMessage,
+});
+export const updateUserAsync = user => {
+    return dispatch => {
+        dispatch(serverCallStart());
+        Axios.post(`profile/${user.key}`, { [user.key]: user.value })
+            .then(response => {
+                dispatch(updateUserSuccess(user))
+            }).catch(err => dispatch(updateUserFailure(err.message)))
+    }
+}

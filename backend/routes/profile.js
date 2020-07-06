@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const auth = require('../middleware/auth')
 const User = require('../models/User')
+const bcrypt = require('bcrypt')
+const { update } = require('../models/User')
 
 router.get('/', auth, async (req, res) => {
     try {
@@ -15,7 +17,13 @@ router.post('/:update', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.userID)
         const updateParam = req.params.update
-        user[updateParam] = req.body[updateParam]
+
+        if (updateParam === 'password') {
+            const updatedPassword = await bcrypt.hash(req.body[updateParam], 8);
+            user.password = updatedPassword;
+        } else {
+            user[updateParam] = req.body[updateParam]
+        }
 
         await user.save()
 

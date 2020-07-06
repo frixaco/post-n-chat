@@ -48,10 +48,11 @@ const postReducer = (state = INITIAL_STATE, action) => {
                 areFetching: true,
             }
         case PostActionTypes.NEW_POST_SUCCESS:
+            console.log('must be:', [...state.posts, action.payload])
             return {
                 ...state,
                 areFetching: false,
-                posts: [...state.posts, action.payload]
+                posts: [action.payload, ...state.posts]
             };
         case PostActionTypes.NEW_POST_FAILURE:
             return {

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
-import ListPosts from './ListPosts';
+import ListPosts from '../ListPosts/ListPosts';
 import { connect } from 'react-redux';
 import { createPostAsync, initialPostsFetchAsync } from '../../redux/post/postActions'
 
-function Posts({ createPostAsync, username, initialPostsFetchAsync }) {
+function Posts({ createPostAsync, username, initialPostsFetchAsync, posts }) {
     const [postForm, setPostForm] = useState({
         title: '', content: '', keyword: '', imglink: ''
-    })
+    });
+    const [searchField, setSearchField] = useState('')
 
     useEffect(() => {
         initialPostsFetchAsync()
@@ -46,6 +47,8 @@ function Posts({ createPostAsync, username, initialPostsFetchAsync }) {
         createPostAsync(newPost)
     }
 
+    const filteredPosts = posts.filter(post => post.title.toLowerCase().includes(searchField.toLowerCase()))
+
     return (
         <div className="posts">
             <div className="posts-menu">
@@ -56,10 +59,10 @@ function Posts({ createPostAsync, username, initialPostsFetchAsync }) {
                 </div>
 
                 <div className="input-group input-group-sm" style={{ flex: 4 }}>
-                    <input type="text" className="form-control" aria-label="Search field" />
-                    <div className="input-group-append">
+                    <input placeholder='Search by title' value={searchField} onChange={e => setSearchField(e.target.value)} type="text" className="form-control" aria-label="Search field" />
+                    {/* <div className="input-group-append">
                         <button className="btn btn-outline-secondary" type="button">Search in titles</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -94,17 +97,17 @@ function Posts({ createPostAsync, username, initialPostsFetchAsync }) {
                         </div>
                         <div className="modal-footer d-flex justify-content-between">
                             <button onClick={cancel} type="button" className="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                            <button onClick={handlePostSubmit} type="button" className="btn btn-secondary">POST</button>
+                            <button onClick={handlePostSubmit} type="button" className="btn btn-secondary" data-dismiss="modal">POST</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <ListPosts />
+            <ListPosts filteredPosts={filteredPosts} />
         </div>
     )
 }
 
-const mapStateToProps = ({ user: { username } }) => ({ username })
+const mapStateToProps = ({ post: { posts }, user: { username } }) => ({ posts, username })
 
 const mapDispatchToProps = dispatch => ({
     createPostAsync: post => dispatch(createPostAsync(post)),

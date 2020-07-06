@@ -16,7 +16,7 @@ function LoginRegister({ loginUserAsync }) {
                 <button
                     onClick={() => loginUserAsync({
                         username: 'GuestUser',
-                        password: 'guestuser'
+                        password: 'qwerty'
                     })}
                     type="submit"
                     className='btn btn-secondary'

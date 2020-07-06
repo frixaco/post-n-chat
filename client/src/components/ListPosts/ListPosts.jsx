@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { editPostAsync, deletePostAsync } from '../../redux/post/postActions';
 
-function ListPosts({ posts, username, editPostAsync, deletePostAsync }) {
+function ListPosts({ filteredPosts, username, editPostAsync, deletePostAsync }) {
     const [showModal, setShowModal] = useState({ show: false, id: null })
     const [newPost, setNewPost] = useState({ editTitle: '', editContent: '' })
 
@@ -11,16 +11,14 @@ function ListPosts({ posts, username, editPostAsync, deletePostAsync }) {
     }
 
     const handlePostUpdate = () => {
-        console.log('Original post:', posts[showModal.id])
-        console.log('Edited info:', newPost)
         const editedPost = {
-            ...posts[showModal.id],
+            ...filteredPosts[showModal.id],
             title: newPost.editTitle,
             content: newPost.editContent,
             date: new Date().toLocaleString(),
         }
-        editPostAsync(editedPost);
         setShowModal({ show: false, id: null })
+        editPostAsync(editedPost);
         setNewPost({ editTitle: '', editContent: '' })
     }
 
@@ -33,10 +31,10 @@ function ListPosts({ posts, username, editPostAsync, deletePostAsync }) {
         <div className="posts-container">
             {
                 showModal.show && (
-                    <div className='edit-container'>
+                    <div className='edit-container bg-light'>
                         <div className="edit-inputs">
-                            <input className='edit-input' value={newPost.newTitle} onChange={handleEdit} placeholder={`Previous title: ${posts[showModal.id].title}`} name='editTitle' id='editTitle' />
-                            <input className='edit-input' value={newPost.newContent} onChange={handleEdit} placeholder={`Previous title: ${posts[showModal.id].content}`} name='editContent' id='editContent' />
+                            <input className='edit-input' value={newPost.newTitle} onChange={handleEdit} placeholder={`Previous title: ${filteredPosts[showModal.id].title}`} name='editTitle' id='editTitle' />
+                            <input className='edit-input' value={newPost.newContent} onChange={handleEdit} placeholder={`Previous title: ${filteredPosts[showModal.id].content}`} name='editContent' id='editContent' />
                         </div>
                         <div className='edit-buttons d-flex justify-content-between'>
                             <button className='btn btn-outline-secondary' onClick={cancelEdit}>Cancel</button>
@@ -45,8 +43,10 @@ function ListPosts({ posts, username, editPostAsync, deletePostAsync }) {
                     </div>
                 )
             }
+
+
             {
-                posts.map((post, idx) => (
+                filteredPosts.map((post, idx) => (
                     <div key={idx} className="post row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                         <div className="col p-4 d-flex flex-column position-static">
                             <strong className="d-inline-block mb-2 text-secondary">{post.author}</strong>
@@ -55,11 +55,11 @@ function ListPosts({ posts, username, editPostAsync, deletePostAsync }) {
                             <p className="mb-auto">
                                 {post.content}
                             </p>
-                            {/* onClick={showImage} */}
+                            {/* Implement onClick={showImage} */}
                             <div className="continue text-secondary font-weight-light mt-2">Display image</div>
                             {post.author === username ? (
                                 <div className='d-flex justify-content-between'>
-                                    <button onClick={() => setShowModal({ show: true, id: idx })} className='btn btn-outline-secondary' >Edit</button>
+                                    <button data-toggle="editmodal" data-target="#editmodal" onClick={() => setShowModal({ show: true, id: idx })} className='btn btn-outline-secondary' >Edit</button>
                                     <button onClick={() => deletePostAsync(post._id)} className='btn btn-secondary'>Delete</button>
                                 </div>
                             ) : null}
@@ -72,15 +72,18 @@ function ListPosts({ posts, username, editPostAsync, deletePostAsync }) {
                                 width: 200, height: 300
                             }}>
                         </div>
-
                     </div>
-                ))
+                )
+                )
+            }
+            {
+                // searchKeywords !== '' && posts.filter((post, idx) => post.title.includes(searchKeywords) ? (
             }
         </div >
     )
 }
 
-const mapStateToProps = ({ post: { posts }, user: { username } }) => ({ posts, username })
+const mapStateToProps = ({ user: { username } }) => ({ username })
 
 const mapDispatchToProps = dispatch => ({
     editPostAsync: post => dispatch(editPostAsync(post)),

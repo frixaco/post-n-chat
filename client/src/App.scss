@@ -165,8 +165,11 @@ $bg-light-gray: #F8F9F8;
 }
 
 .edit-container {
+    position: sticky;
+    top: 0;
     display: flex;
     flex-direction: column;
+    z-index: 5;
 
     .edit-inputs {
         display: flex;
@@ -179,6 +182,121 @@ $bg-light-gray: #F8F9F8;
     }
     .edit-buttons {
         margin: 10px 15px;
+    }
+}
+
+.profile-page {
+    .header {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    .ph-btn {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        padding: 5px 7px;
+        > div {
+            padding-left: 7px;
+        }
+        &:hover {
+            color: white;
+        }
+    }
+    .profile-pic {
+        margin: 20px auto;
+        width: 50%;
+        height: 200px;
+        background-image: url('./pages/Home/profile_pic.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        position: relative;
+    }
+    .edit-pic {
+        position:absolute;
+        bottom:0;
+        right: 10%;
+        padding: 5px 5px 8px 10px;
+        font-size: 20px;
+    }
+    
+    .profile-section {
+        display: flex;
+        margin: 20px 40px;
+    }
+    .section-title {
+        color: white;
+        padding: 20px 30px;
+        background-color: #8d9092;
+        width: 202px;
+    }
+    .input-groups {
+        display: flex;
+        flex-direction: column;
+        background-color: #302e38;
+        flex: 1;
+    }
+    .input-group {
+        padding: 20px 30px;
+        background-color: #302e38;
+    }
+    .input-field {
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+    }
+    .label {
+        width: 160px;
+        text-align: right;
+        padding-right: 10px;
+        color: 	#e4e0c5;
+    }
+    .value {
+        border: none;
+        border-radius: 7px;
+        background-color: #3d3946;
+        padding: 4px 10px;
+        color: white;
+    }
+    .save-btn {
+        margin-left: 160px;
+    }
+    @media only screen and (max-width: 745px) {
+        .input-field {
+            flex-direction: column;
+            text-align: left;
+            align-items: baseline;
+        }
+        .label {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .value {
+            text-align: left;
+        }
+        .save-btn {
+            margin-left: 0;
+        }
+    }
+    @media only screen and (max-width: 560px) {
+        .header {
+            flex-direction: column;
+        }
+        .section-title {
+            width: 100%;
+        }
+        .profile-section {
+            flex-direction: column;
+            margin: 0;
+        }
+        .input-group {
+            padding: 10px 0;
+        }
+        .label {
+            margin: 0;
+        }
     }
 }
 

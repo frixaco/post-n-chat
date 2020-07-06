@@ -36,7 +36,7 @@ export const createPostAsync = post => {
         dispatch(createPostStart());
         Axios.post('/post', post)
             .then(response => {
-                dispatch(createPostSuccess(post))
+                dispatch(createPostSuccess(response.data.post))
             }).catch(err => dispatch(createPostFailure(err.message)));
     }
 }
@@ -75,7 +75,6 @@ export const editPostFailure = errMessage => ({
     payload: errMessage
 });
 export const editPostAsync = post => {
-    console.log('Incoming edited post and its id:', post, post._id)
     return dispatch => {
         dispatch(editPostStart())
         Axios.post(`/post/${post._id}`, post)
