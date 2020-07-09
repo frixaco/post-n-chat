@@ -48,7 +48,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ userID: candidate.id }, config.get('jwtSecret'), { expiresIn: 180 })
 
         res.cookie('token', token, { maxAge: 180000, httpOnly: true })
-        res.json({ validUntil, email: candidate.email })
+        res.json({ username: candidate.username, email: candidate.email, validUntil })
     } catch (e) {
         res.status(500).json({ msg: 'Something went wrong in the server!' })
     }

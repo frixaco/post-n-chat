@@ -9,44 +9,44 @@ import Home from './pages/Home/Home';
 import Profile from './pages/Profile/Profile';
 import LoginRegister from './pages/LoginRegister/LoginRegister';
 
-function App({ username, isAuthenticated, validUntil, logoutUser }) {
+function App({ username, isLoggedIn, validUntil, logoutUser }) {
   useEffect(() => {
-    const date = new Date();
-    const currTime = date.getTime() / 1000;
-    if (validUntil <= currTime) {
-      logoutUser(username);
+    if (isLoggedIn) {
+      const date = new Date();
+      const currTime = date.getTime() / 1000;
+      if (validUntil <= currTime) {
+        logoutUser();
+      }
     }
-  }, [username, logoutUser, validUntil]);
+  }, [isLoggedIn, logoutUser, validUntil]);
 
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/" render={() =>
-          isAuthenticated ?
-            <Home /> : <Redirect to='/login' />
-        } />
-        <Route path="/login" render={() =>
-          isAuthenticated ?
-            <Redirect to='/' /> : <LoginRegister />
-        } />
-        <Route to="/profile" render={() =>
-          isAuthenticated ?
-            <Profile /> : <Redirect to='/login' />
-        } />
+        <Route exact path="/">
+          {isLoggedIn ? <Home /> : <Redirect to='/login' />}
+        </Route>
+        <Route path="/login">
+          {isLoggedIn ? <Redirect to='/' /> : <LoginRegister />}
+        </Route>
+        <Route to={`/${username}`}>
+          {isLoggedIn ? <Profile /> : <Redirect to='/login' />}
+        </Route>
+        {/* <Route to={`/${username}`} component={Profile} /> */}
         <Route path="*" component={() => <h2>404 Page Not Found</h2>} />
       </Switch>
     </div>
   );
 }
 
-const mapStateToProps = ({ user: { isAuthenticated, validUntil, username } }) => {
+const mapStateToProps = ({ user: { isLoggedIn, validUntil, username } }) => {
   return {
-    isAuthenticated, validUntil, username
+    isLoggedIn, validUntil, username
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  logoutUser: username => dispatch(logoutUser(username))
+  logoutUser: () => dispatch(logoutUser())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -5,7 +5,7 @@ import Axios from 'axios';
 
 import { connect } from 'react-redux';
 
-function Register({ isFetching }) {
+function Register({ loading }) {
     const [form, setForm] = useState({ username: '', email: '', password: '' });
 
     const fillForm = e => {
@@ -81,8 +81,7 @@ function Register({ isFetching }) {
 
                 <button
                     onClick={registerUser}
-                    disabled={isFetching}
-                    type="submit"
+                    disabled={loading}
                     className="btn btn-primary"
                 >REGISTER</button>
 
@@ -104,8 +103,8 @@ function Register({ isFetching }) {
     )
 }
 
-const mapStateToProps = ({ user: { isFetching } }) => ({
-    isFetching
+const mapStateToProps = ({ user: { loading } }) => ({
+    loading
 });
 
 export default connect(mapStateToProps)(Register);

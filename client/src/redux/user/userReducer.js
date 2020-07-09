@@ -1,54 +1,48 @@
 import UserActionTypes from './userTypes';
+import { saveErrorMessage } from './userUtils';
 
 const INITIAL_STATE = {
-    isAuthenticated: false,
+    isLoggedIn: false,
     username: null,
     email: null,
-    isFetching: false,
+    loading: false,
     validUntil: null,
     errMessage: null,
+    guest: {
+        username: 'GuestUser',
+        password: '123456'
+    }
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+function userReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case UserActionTypes.SERVER_CALL_START:
-            return {
-                ...state,
-                isFetching: true,
-            }
+        case UserActionTypes.LOGIN_START:
+        case UserActionTypes.UPDATE_PROFILE_START:
+            return { ...state, loading: true }
+
         case UserActionTypes.LOGIN_SUCCESS:
             return {
                 ...state,
-                isFetching: false,
-                isAuthenticated: true,
-                ...action.payload,
-            }
-        case UserActionTypes.LOGIN_FAILURE:
-            return {
-                ...state,
-                isFetching: false,
-                errMessage: action.payload
-            }
-        case UserActionTypes.LOGOUT:
-            return {
-                isAuthenticated: false,
-                username: null,
-                email: null,
-                validUntil: null,
                 errMessage: null,
+                loading: false,
+                isLoggedIn: true,
+                ...action.payload,
             }
         case UserActionTypes.UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
-                isFetching: false,
-                [action.payload.key]: action.payload.value
+                errMessage: null,
+                loading: false,
+                ...action.payload
             }
+
+        case UserActionTypes.LOGIN_FAILURE:
         case UserActionTypes.UPDATE_PROFILE_FAILURE:
-            return {
-                ...state,
-                isFetching: false,
-                errMessage: action.payload
-            }
+            return saveErrorMessage(state, action)
+        case UserActionTypes.LOGOUT:
+            console.log('Logging out..\nuser state:', state, '\nDisconnecting from chat...')
+            // SOCKET SHOULD EMIT USER DISCONNECTED AFTER LOGOUT
+            return state
         default:
             return state
     }

@@ -5,14 +5,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
 import { loginUserAsync } from '../../redux/user/userActions';
 
-function Login({ isFetching, loginUserAsync }) {
+function Login({ loading, loginUserAsync }) {
     const [form, setForm] = useState({ username: '', password: '' });
 
     const fillForm = e => {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
 
-    const handleLogin = () => {
+    const handleLogin = e => {
         toast.info('Logging in...', {
             position: "top-right",
             autoClose: 1000,
@@ -57,8 +57,7 @@ function Login({ isFetching, loginUserAsync }) {
 
                 <button
                     onClick={handleLogin}
-                    disabled={isFetching}
-                    type="submit"
+                    disabled={loading}
                     className="btn btn-primary"
                 >LOGIN</button>
             </div>
@@ -78,8 +77,8 @@ function Login({ isFetching, loginUserAsync }) {
     )
 }
 
-const mapStateToProps = ({ user: { isFetching } }) => ({
-    isFetching
+const mapStateToProps = ({ user: { loading } }) => ({
+    loading
 });
 
 const mapDispatchToProps = dispatch => ({

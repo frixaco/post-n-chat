@@ -2,7 +2,6 @@ const router = require('express').Router()
 const auth = require('../middleware/auth')
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
-const { update } = require('../models/User')
 
 router.get('/', auth, async (req, res) => {
     try {
@@ -24,10 +23,9 @@ router.post('/:update', auth, async (req, res) => {
         } else {
             user[updateParam] = req.body[updateParam]
         }
-
         await user.save()
 
-        res.json({ msg: `${updateParam} successfully updated!` })
+        res.json({ [updateParam]: user[updateParam] })
     } catch (e) {
         res.status(500).json({ msg: 'Something went wrong in the server!' })
     }

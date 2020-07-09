@@ -2,16 +2,6 @@ const router = require('express').Router()
 const Post = require('../models/Post')
 const auth = require('../middleware/auth')
 
-
-router.post('/my', auth, async (req, res) => {
-    try {
-        const posts = await Post.find({ author: req.body.username });
-        res.json({ posts });
-    } catch (e) {
-        res.status(500).json({ msg: 'Something went wrong in the server!' })
-    }
-})
-
 router.post('/', auth, async (req, res) => {
     try {
         const newPost = new Post(req.body)
@@ -34,7 +24,6 @@ router.get('/', auth, async (req, res) => {
 
 router.post('/:id', auth, async (req, res) => {
     try {
-        console.log(req.body);
         const { title, content } = req.body;
         const editedPost = await Post.findById(req.params.id);
 
