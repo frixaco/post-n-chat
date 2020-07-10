@@ -17,7 +17,7 @@ function Profile({ username, email, areFetching, myposts, updateUserAsync }) {
             <div className="profile-pic">
                 <div className="edit-pic btn btn-sm btn-secondary">Edit</div>
             </div>
-
+            {username === 'GuestUser' ? <div>GuestUsers cannot edit profile details</div> : null}
             <section className="profile-section">
                 <div className="section-title">
                     <h2 className="title">Username</h2>
@@ -32,7 +32,11 @@ function Profile({ username, email, areFetching, myposts, updateUserAsync }) {
                     <div className="input-group">
                         <div className="input-field">
                             <div className="label">New username:</div>
-                            <input value={newUsername} onChange={e => setNewUsername(e.target.value)} className="value" type="text" />
+                            <input
+                                value={newUsername}
+                                onChange={e => setNewUsername(e.target.value)}
+                                disabled={username === 'GuestUser' ? true : false}
+                                className="value" type="text" />
                         </div>
                     </div>
                     <div className="input-group">
@@ -60,7 +64,11 @@ function Profile({ username, email, areFetching, myposts, updateUserAsync }) {
                     <div className="input-group">
                         <div className="input-field">
                             <div className="label">New email:</div>
-                            <input value={newEmail} onChange={e => setNewEmail(e.target.value)} className="value" type="text" />
+                            <input
+                                value={newEmail}
+                                onChange={e => setNewEmail(e.target.value)}
+                                disabled={username === 'GuestUser' ? true : false}
+                                className="value" type="text" />
                         </div>
                     </div>
                     <div className="input-group">
@@ -82,7 +90,11 @@ function Profile({ username, email, areFetching, myposts, updateUserAsync }) {
                     <div className="input-group">
                         <div className="input-field">
                             <div className="label">New password:</div>
-                            <input value={newPassword} onChange={e => setNewPassword(e.target.value)} className="value" type="text" />
+                            <input
+                                value={newPassword}
+                                onChange={e => setNewPassword(e.target.value)}
+                                disabled={username === 'GuestUser' ? true : false}
+                                className="value" type="text" />
                         </div>
                     </div>
                     <div className="input-group">
@@ -107,10 +119,5 @@ const mapStateToProps = ({ user: { username, email }, posts: { items, areFetchin
     email,
     areFetching
 })
-
-// const mapDispatchToProps = (dispatch) => ({
-//     updateUserAsync: user => dispatch(updateUserAsync(user)),
-//     fetchPostsAsync: username => dispatch(fetchPostsAsync(username)),
-// })
 
 export default connect(mapStateToProps, { updateUserAsync })(Profile);

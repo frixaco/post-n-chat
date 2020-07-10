@@ -35,6 +35,7 @@ function Register({ loading }) {
                 progress: undefined,
                 transition: Slide
             });
+            setForm({ username: '', email: '', password: '' })
         } catch (err) {
             console.log(err.message)
         }

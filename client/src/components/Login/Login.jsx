@@ -24,6 +24,7 @@ function Login({ loading, loginUserAsync }) {
             transition: Slide
         });
         loginUserAsync(form);
+        setForm({ username: '', password: '' })
     }
 
     return (

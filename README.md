@@ -12,7 +12,7 @@ to install all npm packages
 
 ## Running the project
 
-### `npm run server` in `backend` folder
+### `npm start` in `backend` folder
 
 ### `npm start` in `client` folder
 
