@@ -15,7 +15,7 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         case ChatActionTypes.USER_ONLINE:
             return {
                 ...state,
-                usersOnline: [...state.usersOnline, action.payload]
+                usersOnline: action.payload
             }
         default:
             return state

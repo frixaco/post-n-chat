@@ -12,7 +12,13 @@ function Posts({ username, fetchPostsAsync, items }) {
     //     if (username) { fetchPostsAsync() }
     // }, [username, fetchPostsAsync])
 
-    useEffect(() => username && fetchPostsAsync(), [username, fetchPostsAsync])
+    useEffect(() => {
+        let isActive = true; // AbortController
+        if (isActive && username) {
+            fetchPostsAsync()
+        }
+        return () => { isActive = false }
+    }, [username, fetchPostsAsync])
 
     const filteredPosts = items.filter(post => post.title.toLowerCase().includes(searchField.toLowerCase()))
     return (

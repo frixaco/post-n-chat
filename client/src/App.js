@@ -8,6 +8,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Profile from './pages/Profile/Profile';
 import LoginRegister from './pages/LoginRegister/LoginRegister';
+import socket from './initSocket';
 
 function App({ username, isLoggedIn, validUntil, logoutUser }) {
   useEffect(() => {
@@ -16,9 +17,12 @@ function App({ username, isLoggedIn, validUntil, logoutUser }) {
       const currTime = date.getTime() / 1000;
       if (validUntil <= currTime) {
         logoutUser();
+        socket.emit('user_disconnected', username)
       }
+    } else {
+      socket.emit('user_disconnected', username)
     }
-  }, [isLoggedIn, logoutUser, validUntil]);
+  }, [isLoggedIn, logoutUser, validUntil, username]);
 
   return (
     <div className="App">

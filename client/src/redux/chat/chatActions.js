@@ -5,7 +5,7 @@ export const newMessage = message => ({
     payload: message,
 });
 
-export const userOnline = username => ({
+export const userOnline = usersOnline => ({
     type: ChatActionTypes.USER_ONLINE,
-    payload: username,
+    payload: usersOnline,
 });

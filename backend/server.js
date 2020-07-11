@@ -2,14 +2,10 @@ const mongoose = require('mongoose');
 const config = require('config');
 const express = require('express');
 const app = express();
-// const server = require('http').createServer(app)
-// const io = require('socket.io')(server);
+const server = require('http').createServer(app)
+const io = require('socket.io')(server);
 const cookieParser = require('cookie-parser');
-// const cors = require('cors');
 
-// let usersOnline = [];
-
-// app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -17,33 +13,54 @@ app.use('/auth', require('./routes/auth'))
 app.use('/post', require('./routes/post'))
 app.use('/profile', require('./routes/profile'))
 
-// BRAD GITHUB CHATCORD
-// io.on("connection", socket => {
-//     socket.on('user online', username => {
-//         usersOnline.push({ username, id: socket.id })
-//         const usersnames = usersOnline.map(user => user.username)
+// const usersOnline = new Set()
+let usersOnline = []
 
-//         io.emit('update users', usersnames)
-//     })
+io.on('connection', socket => {
+    socket.on('new_online_user', username => {
+        console.log('new user:', username)
 
-//     socket.on('new message', message => {
-//         io.emit('update chat', message)
-//     })
+        let duplicate = false;
+        for (let i = 0; i < usersOnline.length; i++) {
+            if (usersOnline[i].username === username) {
+                duplicate = true;
+                break;
+            }
+        }
+        if (duplicate) {
+            console.log('updating socket id')
+            usersOnline = usersOnline.map(user => {
+                if (user.id !== socket.id && user.username === username) {
+                    return { username, id: socket.id }
+                }
+            })
+        } else {
+            usersOnline.push({ username, id: socket.id })
+        }
 
-//     socket.on('user disconnected', username => {
-//         usersOnline = usersOnline.filter(user => user.username !== username)
-//         const usersnames = usersOnline.map(user => user.username)
+        io.emit('update_users_online', usersOnline.map(user => user.username))
+    })
 
-//         io.emit('update users', usersnames)
-//     })
+    socket.on('new_message', message => {
+        io.emit('update_chat_history', message)
+    })
 
-//     socket.on('disconnect', client => {
-//         const srvSockets = io.sockets.sockets;
-//         const onlineLeft = Object.keys(srvSockets);
+    socket.on('user_disconnected', username => {
+        usersOnline = usersOnline.filter(user => user.username !== username)
+        io.emit('update_users_online', usersOnline.map(user => user.username))
+    })
 
-//         usersOnline = usersOnline.filter(user => onlineLeft.includes(user.id))
-//     })
-// });
+    socket.on('disconnect', () => {
+        const srvSockets = io.sockets.sockets;
+        const onlineLeft = Object.keys(srvSockets);
+
+        usersOnline = usersOnline.filter(user => onlineLeft.includes(user.id))
+        console.log('users left:', usersOnline)
+        io.emit('update_users_online', usersOnline.map(user => user.username))
+    })
+
+    console.log('socket connected', socket.id)
+})
 
 const PORT = process.env.PORT || 4000
 
@@ -55,14 +72,12 @@ async function start() {
             useCreateIndex: true,
         })
         console.log('connected to MongoDB')
-        // server.listen(PORT, () => console.log(`server is up on PORT: ${PORT}`));
-        app.listen(PORT, () => console.log(`server is up on PORT: ${PORT}`));
+        server.listen(PORT, () => console.log(`server is up on PORT: ${PORT}`));
     } catch (e) {
         console.log('Server Error', e.message)
         process.exit(1)
     }
 }
-
 start()
 
 
