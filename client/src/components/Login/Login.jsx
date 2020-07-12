@@ -34,7 +34,7 @@ function Login({ loading, loginUserAsync }) {
                     <h4>Sign in</h4>
                     <hr />
                 </div>
-                <div className="form-group">
+                <form name='form1' className="form-group">
                     <label forhtml="username">Username</label>
                     <input
                         name='username'
@@ -43,7 +43,7 @@ function Login({ loading, loginUserAsync }) {
                         placeholder='Username'
                         type='text'
                         className="form-control"
-                        id="username" />
+                    />
 
                     <label forhtml="password">Password</label>
                     <input
@@ -53,8 +53,8 @@ function Login({ loading, loginUserAsync }) {
                         placeholder='Password'
                         type='password'
                         className="form-control"
-                        id="password" />
-                </div>
+                    />
+                </form>
 
                 <button
                     onClick={handleLogin}

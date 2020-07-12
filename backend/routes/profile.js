@@ -12,10 +12,10 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
-router.post('/:update', auth, async (req, res) => {
+router.post('/:updateKey', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.userID)
-        const updateParam = req.params.update
+        const updateParam = req.params.updateKey
 
         if (updateParam === 'password') {
             const updatedPassword = await bcrypt.hash(req.body[updateParam], 8);

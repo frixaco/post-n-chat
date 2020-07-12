@@ -35,7 +35,7 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
         if (username) {
             socket.emit('new_online_user', username)
         }
-    }, [])
+    }, [username])
 
     useEffect(() => {
         messagesRef.current.scrollTo(0, 99999);

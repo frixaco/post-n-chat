@@ -48,7 +48,7 @@ function Register({ loading }) {
                     <h4>Create a new account</h4>
                     <hr />
                 </div>
-                <div className="form-group">
+                <form name='form2' className="form-group">
                     <label forhtml="username">Username</label>
                     <input
                         name='username'
@@ -57,7 +57,7 @@ function Register({ loading }) {
                         placeholder='Username'
                         type='text'
                         className="form-control"
-                        id="username" />
+                    />
 
                     <label forhtml="email">Email</label>
                     <input
@@ -67,18 +67,18 @@ function Register({ loading }) {
                         placeholder='Email'
                         type='email'
                         className="form-control"
-                        id="email" />
+                    />
 
                     <label forhtml="password">Password</label>
                     <input
                         name='password'
                         value={form.password}
                         onChange={fillForm}
-                        placeholder='Passoword'
+                        placeholder='Password'
                         type='password'
                         className="form-control"
-                        id="password" />
-                </div>
+                    />
+                </form>
 
                 <button
                     onClick={registerUser}

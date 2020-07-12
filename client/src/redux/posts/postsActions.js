@@ -32,7 +32,11 @@ export const fetchPostsFailure = errMessage => ({
 export const fetchPostsAsync = () => dispatch => {
     dispatch(fetchPostsStart());
     Axios.get('/post')
-        .then(response => dispatch(fetchPostsSuccess(response.data.posts.reverse())))
+        .then(response => {
+            console.log(response)
+            console.log(response.data)
+            dispatch(fetchPostsSuccess(response.data.posts.reverse()))
+        })
         .catch(err => dispatch(fetchPostsFailure(err.message)));
 }
 

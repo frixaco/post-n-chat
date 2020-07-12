@@ -5,6 +5,10 @@ const app = express();
 const server = require('http').createServer(app)
 const io = require('socket.io')(server);
 const cookieParser = require('cookie-parser');
+const path = require('path');
+
+// FOR PRODUCTION
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
 
 app.use(express.json());
 app.use(cookieParser());
@@ -12,9 +16,13 @@ app.use(cookieParser());
 app.use('/auth', require('./routes/auth'))
 app.use('/post', require('./routes/post'))
 app.use('/profile', require('./routes/profile'))
-app.use('/pic', require('./routes/pic'))
 
 let usersOnline = []
+
+// FOR PRODUCTION
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
+})
 
 io.on('connection', socket => {
     socket.on('new_online_user', username => {
@@ -35,6 +43,8 @@ io.on('connection', socket => {
                     console.log('prev:', user)
                     console.log('now:', { username: username, id: socket.id })
                     return { username: username, id: socket.id }
+                } else {
+                    return user
                 }
             })
         } else {
