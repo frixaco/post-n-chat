@@ -56,8 +56,4 @@ function LoginRegister({ loginUserAsync, guest }) {
 
 const mapStateToProps = ({ user: { loading, guest } }) => ({ loading, guest });
 
-// const mapDispatchToProps = dispatch => ({
-//     loginUserAsync: user => dispatch(loginUserAsync(user))
-// });
-
 export default connect(mapStateToProps, { loginUserAsync })(LoginRegister);

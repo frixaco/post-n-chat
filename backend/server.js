@@ -12,8 +12,8 @@ app.use(cookieParser());
 app.use('/auth', require('./routes/auth'))
 app.use('/post', require('./routes/post'))
 app.use('/profile', require('./routes/profile'))
+app.use('/pic', require('./routes/pic'))
 
-// const usersOnline = new Set()
 let usersOnline = []
 
 io.on('connection', socket => {
@@ -23,6 +23,7 @@ io.on('connection', socket => {
         let duplicate = false;
         for (let i = 0; i < usersOnline.length; i++) {
             if (usersOnline[i].username === username) {
+                console.log('found duplicate')
                 duplicate = true;
                 break;
             }
@@ -31,11 +32,14 @@ io.on('connection', socket => {
             console.log('updating socket id')
             usersOnline = usersOnline.map(user => {
                 if (user.id !== socket.id && user.username === username) {
-                    return { username, id: socket.id }
+                    console.log('prev:', user)
+                    console.log('now:', { username: username, id: socket.id })
+                    return { username: username, id: socket.id }
                 }
             })
         } else {
-            usersOnline.push({ username, id: socket.id })
+            console.log('not duplicate. push:', { username: username, id: socket.id })
+            usersOnline.push({ username: username, id: socket.id })
         }
 
         io.emit('update_users_online', usersOnline.map(user => user.username))

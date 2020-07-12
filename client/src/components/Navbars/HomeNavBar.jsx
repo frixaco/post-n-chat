@@ -30,8 +30,6 @@ function HomeNavBar({ username, logoutUser }) {
     )
 }
 
-const mapStateToProps = ({ user: { username } }) => ({
-    username
-})
+const mapStateToProps = ({ user: { username } }) => ({ username })
 
 export default connect(mapStateToProps, { logoutUser })(HomeNavBar)

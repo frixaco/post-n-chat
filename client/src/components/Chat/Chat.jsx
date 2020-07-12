@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, } from 'react';
 import { connect } from 'react-redux'
 
 import { newMessage, userOnline } from '../../redux/chat/chatActions'
@@ -18,7 +18,7 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
         setMessageValue('');
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         socket.on('update_users_online', usersOnline => {
             userOnline(usersOnline)
         })
@@ -31,13 +31,13 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
         }
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (username) {
             socket.emit('new_online_user', username)
         }
-    }, [username]);
+    }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         messagesRef.current.scrollTo(0, 99999);
     }, [chatHistory]);
 

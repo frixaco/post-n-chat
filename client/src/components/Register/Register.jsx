@@ -104,8 +104,6 @@ function Register({ loading }) {
     )
 }
 
-const mapStateToProps = ({ user: { loading } }) => ({
-    loading
-});
+const mapStateToProps = ({ user: { loading } }) => ({ loading });
 
 export default connect(mapStateToProps)(Register);

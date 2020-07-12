@@ -8,10 +8,6 @@ import ListPosts from './ListPosts';
 function Posts({ username, fetchPostsAsync, items }) {
     const [searchField, setSearchField] = useState('')
 
-    // useEffect(() => {
-    //     if (username) { fetchPostsAsync() }
-    // }, [username, fetchPostsAsync])
-
     useEffect(() => {
         let isActive = true; // AbortController
         if (isActive && username) {

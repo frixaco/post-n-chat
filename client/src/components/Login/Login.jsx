@@ -78,12 +78,6 @@ function Login({ loading, loginUserAsync }) {
     )
 }
 
-const mapStateToProps = ({ user: { loading } }) => ({
-    loading
-});
+const mapStateToProps = ({ user: { loading } }) => ({ loading });
 
-const mapDispatchToProps = dispatch => ({
-    loginUserAsync: user => dispatch(loginUserAsync(user))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, { loginUserAsync })(Login);
