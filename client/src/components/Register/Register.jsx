@@ -12,6 +12,38 @@ function Register({ loading }) {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
 
+    const registerOnEnter = async e => {
+        try {
+            if (e.key === 'Enter') {
+                toast.info('Registering...', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    transition: Slide
+                });
+                await Axios.post('/auth/register', form)
+                toast.success('Registration success!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    transition: Slide
+                });
+                setForm({ username: '', email: '', password: '' })
+            }
+        } catch (err) {
+            console.log(err.message)
+        }
+
+    }
+
     const registerUser = async () => {
         try {
             toast.info('Registering...', {
@@ -77,6 +109,7 @@ function Register({ loading }) {
                         placeholder='Password'
                         type='password'
                         className="form-control"
+                        onKeyDown={registerOnEnter}
                     />
                 </form>
 

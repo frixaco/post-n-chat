@@ -12,6 +12,23 @@ function Login({ loading, loginUserAsync }) {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
 
+    const loginOnEnter = e => {
+        if (e.key === 'Enter') {
+            toast.info('Logging in...', {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                transition: Slide
+            });
+            loginUserAsync(form);
+            setForm({ username: '', password: '' })
+        }
+    }
+
     const handleLogin = e => {
         toast.info('Logging in...', {
             position: "top-right",
@@ -53,6 +70,7 @@ function Login({ loading, loginUserAsync }) {
                         placeholder='Password'
                         type='password'
                         className="form-control"
+                        onKeyDown={loginOnEnter}
                     />
                 </form>
 

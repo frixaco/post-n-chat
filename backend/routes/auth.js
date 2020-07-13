@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
-const config = require('config')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
@@ -28,7 +27,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
-
+        console.log(username, password)
         const candidate = await User.findOne({ username })
         if (!candidate) {
             console.log('user does not exists');
@@ -45,7 +44,7 @@ router.post('/login', async (req, res) => {
         const currTime = date.getTime() / 1000;
         const validUntil = currTime + 180;
 
-        const token = jwt.sign({ userID: candidate.id }, config.get('jwtSecret'), { expiresIn: 180 })
+        const token = jwt.sign({ userID: candidate.id }, process.env.jwtSecret, { expiresIn: 180 })
 
         res.cookie('token', token, { maxAge: 180000, httpOnly: true })
         res.json({ username: candidate.username, email: candidate.email, validUntil })

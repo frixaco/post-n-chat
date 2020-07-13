@@ -1,5 +1,6 @@
+require('dotenv').config()
+
 const mongoose = require('mongoose');
-const config = require('config');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app)
@@ -8,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 // FOR PRODUCTION
-// app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
+// app.use(express.static(path.join(__dirname, 'client')))
 
 app.use(express.json());
 app.use(cookieParser());
@@ -21,7 +22,7 @@ let usersOnline = []
 
 // FOR PRODUCTION
 // app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
+//     res.sendFile(path.join(__dirname, 'client', 'index.html'))
 // })
 
 io.on('connection', socket => {
@@ -80,7 +81,7 @@ const PORT = process.env.PORT || 4000
 
 async function start() {
     try {
-        await mongoose.connect(config.get('mongoURL'), {
+        await mongoose.connect(process.env.mongoURL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,

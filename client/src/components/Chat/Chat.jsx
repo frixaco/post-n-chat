@@ -8,6 +8,18 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
     const [messageValue, setMessageValue] = React.useState('');
     const messagesRef = React.useRef();
 
+    const sendMsgOnEnter = e => {
+        if (e.key === 'Enter') {
+            if (messageValue !== '') {
+                socket.emit('new_message', {
+                    username,
+                    text: messageValue,
+                });
+            }
+            setMessageValue('');
+        }
+    }
+
     const onSendMessage = () => {
         if (messageValue !== '') {
             socket.emit('new_message', {
@@ -59,6 +71,7 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
                         value={messageValue}
                         onChange={(e) => setMessageValue(e.target.value)}
                         className="myinput"
+                        onKeyDown={sendMsgOnEnter}
                     />
                     <button onClick={onSendMessage} type="button" className="btn btn-secondary">
                         Send

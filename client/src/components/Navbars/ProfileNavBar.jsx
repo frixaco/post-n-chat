@@ -24,7 +24,7 @@ function ProfileNavBar({ username, logoutUser }) {
                 <div>Back Home</div>
             </Link>
             <h2>{username}'s Profile</h2>
-            <button onClick={handleUserDelete} className="link btn btn-sm btn-outline-secondary">
+            <button disabled={username === 'GuestUser' ? true : false} onClick={handleUserDelete} className="link btn btn-sm btn-outline-secondary">
                 <i style={{ fontSize: 20, marginRight: 10 }} className="fas fa-user-slash"></i>
                 Delete Account
             </button>
