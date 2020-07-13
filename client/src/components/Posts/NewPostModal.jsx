@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import Axios from 'axios'
 
 import { createPostAsync } from '../../redux/posts/postsActions'
+import Spinner from '../Spinner/Spinner';
 
 function NewPostModal({ username, createPostAsync }) {
     const [postForm, setPostForm] = useState({
         title: '', content: '', keyword: '', imglink: ''
     });
+    const [pexelLoading, setPexelLoading] = useState(false)
 
     const fillForm = e => setPostForm({ ...postForm, [e.target.name]: e.target.value })
     const pickPexel = async () => {
         try {
-            // LOADER ?
-            let pexelLink = `https://api.pexels.com/v1/search?query=${postForm.keyword}&per_page=1`
+            setPexelLoading(true)
+            let pexelLink = `http://api.pexels.com/v1/search?query=${postForm.keyword}&per_page=1`
             if (postForm.keyword === '') {
-                pexelLink = 'https://api.pexels.com/v1/curated?per_page=1'
+                pexelLink = 'http://api.pexels.com/v1/curated?per_page=1'
             }
             const response = await Axios.get(pexelLink, {
                 headers: {
@@ -24,6 +26,7 @@ function NewPostModal({ username, createPostAsync }) {
             })
             const link = response.data.photos[0].src.medium
             setPostForm({ ...postForm, imglink: link })
+            setPexelLoading(false)
         } catch (err) {
             console.log(err.message)
         }
@@ -66,9 +69,11 @@ function NewPostModal({ username, createPostAsync }) {
                                 <button onClick={pickPexel} className="btn btn-outline-secondary" type="button">Pick random image</button>
                             </div>
                         </div>
-                        {postForm.imglink === '' ? null : (
-                            <img className='imglink' src={postForm.imglink} alt="pexel" width="465" height="300" />
-                        )}
+
+                        {pexelLoading ? <Spinner /> :
+                            !postForm.imglink ? null : (
+                                <img className='imglink' src={postForm.imglink} alt="pexel" width="465" height="300" />
+                            )}
                     </div>
                     <div className="modal-footer d-flex justify-content-between">
                         <button onClick={cancel} type="button" className="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
