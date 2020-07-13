@@ -18,7 +18,6 @@ function HomeNavBar({ username, logoutUser }) {
                 <div>Edit Profile</div>
             </Link>
             <div className="nav-profile">
-                {/* <img src={HomeNavLogo} width="35" height="35" alt='profile' /> */}
                 {username}
             </div>
             <div onClick={handleLogout} className="nav-logout btn btn-sm btn-outline-secondary">
