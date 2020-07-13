@@ -32,7 +32,7 @@ function LoginRegister({ loginUserAsync, guest }) {
                     <button
                         onClick={handleGuestLogin}
                         type="submit"
-                        className='btn btn-secondary'
+                        className='btn btn-outline-secondary'
                         style={{ margin: '0 0 30px' }}
                     >Sign in as Guest</button>
                 </div>

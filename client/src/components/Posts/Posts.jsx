@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 
 import { fetchPostsAsync } from '../../redux/posts/postsActions'
 import NewPostModal from './NewPostModal';
-import ListPosts from './ListPosts';
 import Spinner from '../Spinner/Spinner';
 
-function Posts({ username, areFetching, fetchPostsAsync, items }) {
+const ListPosts = React.lazy(() => import('./ListPosts'));
+
+function Posts({ username, fetchPostsAsync, items }) {
     const [searchField, setSearchField] = useState('')
 
     useEffect(() => {
@@ -35,7 +36,9 @@ function Posts({ username, areFetching, fetchPostsAsync, items }) {
                 </div>
             </div>
             <NewPostModal />
-            {areFetching ? <Spinner /> : <ListPosts filteredPosts={filteredPosts} />}
+            <Suspense fallback={<Spinner />}>
+                <ListPosts filteredPosts={filteredPosts} />
+            </Suspense>
         </div>
     )
 }

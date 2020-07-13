@@ -83,7 +83,7 @@ function Register({ loading }) {
                 <button
                     onClick={registerUser}
                     disabled={loading}
-                    className="btn btn-primary"
+                    className="btn btn-secondary"
                 >REGISTER</button>
 
 

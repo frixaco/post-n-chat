@@ -59,7 +59,7 @@ function Login({ loading, loginUserAsync }) {
                 <button
                     onClick={handleLogin}
                     disabled={loading}
-                    className="btn btn-primary"
+                    className="btn btn-secondary"
                 >LOGIN</button>
             </div>
             <ToastContainer
