@@ -14,9 +14,6 @@ function Profile({ username, email, areFetching, myposts, updateUserAsync }) {
         <div className="profile-page">
             <ProfileNavBar username={username} />
 
-            <div className="profile-pic">
-                <div className="edit-pic btn btn-sm btn-secondary">Edit</div>
-            </div>
             {username === 'GuestUser' ? <div>GuestUsers cannot edit profile details</div> : null}
             <section className="profile-section">
                 <div className="section-title">

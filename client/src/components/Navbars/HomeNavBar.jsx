@@ -6,7 +6,6 @@ import { logoutUser } from '../../redux/user/userActions';
 import socket from '../../initSocket';
 
 function HomeNavBar({ username, logoutUser }) {
-
     const handleLogout = () => {
         socket.emit('user_disconnected', username)
         logoutUser()
@@ -19,7 +18,7 @@ function HomeNavBar({ username, logoutUser }) {
                 <div>Edit Profile</div>
             </Link>
             <div className="nav-profile">
-                <img src="https://via.placeholder.com/40x40.jpg" width="35" height="35" alt='profile' />
+                {/* <img src={HomeNavLogo} width="35" height="35" alt='profile' /> */}
                 {username}
             </div>
             <div onClick={handleLogout} className="nav-logout btn btn-sm btn-outline-secondary">
@@ -30,6 +29,6 @@ function HomeNavBar({ username, logoutUser }) {
     )
 }
 
-const mapStateToProps = ({ user: { username } }) => ({ username })
+const mapStateToProps = state => ({ username: state.user.username })
 
 export default connect(mapStateToProps, { logoutUser })(HomeNavBar)

@@ -221,18 +221,10 @@ $bg-light-gray: #F8F9F8;
         margin: 20px auto;
         width: 50%;
         height: 200px;
-        background-image: url('./pages/Home/profile_pic.png');
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
         position: relative;
-    }
-    .edit-pic {
-        position:absolute;
-        bottom:0;
-        right: 10%;
-        padding: 5pxx;
-        font-size: 20px;
     }
     
     .profile-section {
@@ -312,7 +304,18 @@ $bg-light-gray: #F8F9F8;
         }
     }
 }
-
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+}
+.avatar-options {
+    display: flex;
+    margin: 0 auto;
+    .option {
+        margin: 10px;
+        cursor: pointer;
+    }
+}
 .chat {
     width: 40%;
     margin: 10px;

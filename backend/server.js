@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 // FOR PRODUCTION
-app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
+// app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
 
 app.use(express.json());
 app.use(cookieParser());
@@ -20,9 +20,9 @@ app.use('/profile', require('./routes/profile'))
 let usersOnline = []
 
 // FOR PRODUCTION
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
-})
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
+// })
 
 io.on('connection', socket => {
     socket.on('new_online_user', username => {

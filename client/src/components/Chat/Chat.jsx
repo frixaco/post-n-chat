@@ -29,7 +29,7 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
             socket.off('update_users_online')
             socket.off('update_chat_history')
         }
-    }, [])
+    }, [userOnline, newMessage])
 
     useEffect(() => {
         if (username) {

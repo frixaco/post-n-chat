@@ -37,4 +37,3 @@ export const updateUserAsync = user => dispatch => {
 
 // LOGOUT
 export const logoutUser = () => ({ type: UserActionTypes.LOGOUT });
-

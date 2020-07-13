@@ -39,10 +39,8 @@ function userReducer(state = INITIAL_STATE, action) {
         case UserActionTypes.LOGIN_FAILURE:
         case UserActionTypes.UPDATE_PROFILE_FAILURE:
             return saveErrorMessage(state, action)
+
         case UserActionTypes.LOGOUT:
-            console.log('Logging out..\nuser state:', state, '\nDisconnecting from chat...')
-            // SOCKET SHOULD EMIT USER DISCONNECTED AFTER LOGOUT
-            return state
         default:
             return state
     }

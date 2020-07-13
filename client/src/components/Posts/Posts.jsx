@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 import { fetchPostsAsync } from '../../redux/posts/postsActions'
 import NewPostModal from './NewPostModal';
 import ListPosts from './ListPosts';
+import Spinner from '../Spinner/Spinner';
 
-function Posts({ username, fetchPostsAsync, items }) {
+function Posts({ username, areFetching, fetchPostsAsync, items }) {
     const [searchField, setSearchField] = useState('')
 
     useEffect(() => {
-        let isActive = true; // AbortController
-        if (isActive && username) {
+        if (username) {
             fetchPostsAsync()
         }
-        return () => { isActive = false }
     }, [username, fetchPostsAsync])
 
     const filteredPosts = items.filter(post => post.title.toLowerCase().includes(searchField.toLowerCase()))
@@ -36,11 +35,11 @@ function Posts({ username, fetchPostsAsync, items }) {
                 </div>
             </div>
             <NewPostModal />
-            <ListPosts filteredPosts={filteredPosts} />
+            {areFetching ? <Spinner /> : <ListPosts filteredPosts={filteredPosts} />}
         </div>
     )
 }
 
-const mapStateToProps = ({ posts: { items }, user: { username } }) => ({ items, username })
+const mapStateToProps = ({ posts: { items, areFetching }, user: { username } }) => ({ items, username, areFetching })
 
 export default connect(mapStateToProps, { fetchPostsAsync })(Posts);

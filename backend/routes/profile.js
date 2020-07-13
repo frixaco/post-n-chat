@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const auth = require('../middleware/auth')
 const User = require('../models/User')
+const Post = require('../models/Post')
 const bcrypt = require('bcrypt')
 
 router.get('/', auth, async (req, res) => {
@@ -30,5 +31,21 @@ router.post('/:updateKey', auth, async (req, res) => {
         res.status(500).json({ msg: 'Something went wrong in the server!' })
     }
 })
+
+router.post('/', auth, async (req, res) => {
+    try {
+        console.log('deleting user')
+        await User.deleteOne({ username: req.body.username }, err => {
+            if (err) return console.log(err.message);
+        });
+        await Post.deleteMany({ author: req.body.username }, err => {
+            if (err) return console.log(err.message)
+        })
+        res.json({ msg: 'User deleted successfully!' })
+    } catch (err) {
+        res.status(500).json({ msg: 'Something went wrong in the server!' })
+    }
+})
+
 
 module.exports = router
