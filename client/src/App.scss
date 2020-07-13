@@ -414,3 +414,9 @@ $bg-light-gray: #F8F9F8;
         }
     }
 }
+.github {
+    color: rgb(81, 87, 92);
+    &:hover {
+        color: rgb(35, 38, 41);
+    }
+}
