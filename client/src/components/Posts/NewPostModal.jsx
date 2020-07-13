@@ -13,7 +13,11 @@ function NewPostModal({ username, createPostAsync }) {
     const pickPexel = async () => {
         try {
             // LOADER ?
-            const response = await Axios.get(`https://api.pexels.com/v1/search?query=${postForm.keyword}&per_page=1`, {
+            let pexelLink = `https://api.pexels.com/v1/search?query=${postForm.keyword}&per_page=1`
+            if (postForm.keyword === '') {
+                pexelLink = 'https://api.pexels.com/v1/curated?per_page=1'
+            }
+            const response = await Axios.get(pexelLink, {
                 headers: {
                     'Authorization': "563492ad6f9170000100000125fdd7dd0cbd4bada2257ce4d4c5b090"
                 }

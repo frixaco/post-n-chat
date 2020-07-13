@@ -67,7 +67,7 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
                 <div className="chat-users">
                     <p>Online ({usersOnline.length}):</p>
                     {usersOnline.map((name, index) => (
-                        <span key={name + index} className="badge badge-success mx-1">{name}</span>
+                        <span key={name + index} className="badge bg-success mx-1">{name}</span>
                     ))}
                 </div>
             </div>

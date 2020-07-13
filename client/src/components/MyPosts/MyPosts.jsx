@@ -1,16 +1,35 @@
 import React from 'react'
 
-function MyPosts({ loading, myposts }) {
+function MyPosts({ myposts }) {
+    console.log(myposts);
     return (
-        <div>
-            <h3>MY POSTS</h3>
-            {loading ? <h2>LOADING YOUR POSTS....</h2> : <h2>DONE</h2>}
-            {
-                myposts.length !== 0 && myposts.map((post, idx) => (
-                    <p key={idx}>{`${post.author}: ${post.title}. ${post.content}`}</p>
-                ))
-            }
-        </div>
+        <>
+            <h3 className='text-center bg-light py-4'>MY POSTS</h3>
+            <div className='myposts-container'>
+                {
+                    myposts.length !== 0 && myposts.map((post, idx) => (
+                        <div key={idx} className="mypost">
+                            <div className="col p-4 d-flex flex-column position-static">
+                                <strong className="d-inline-block mb-2 text-secondary">{post.author}</strong>
+                                <h3 className="mb-0">{post.title}</h3>
+                                <small className="mb-1 text-muted text-sm">{post.date}</small>
+                                <p className="mb-auto">
+                                    {post.content}
+                                </p>
+                            </div>
+                            <div className="mypic col-auto d-flex d-lg-block"
+                                style={{
+                                    backgroundImage: `url(${post.imglink})`,
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPosition: 'center',
+                                    width: 200, height: 300
+                                }}>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        </>
     )
 }
 

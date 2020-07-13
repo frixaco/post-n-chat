@@ -394,3 +394,23 @@ $bg-light-gray: #F8F9F8;
           margin: 10px auto;
       }
   }
+
+.myposts-container {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.mypost {
+    margin: 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    display: flex;
+    @media (max-width: 530px) {
+        flex-direction: column;
+        .mypic {
+            width: 100%!important;
+            height: 100%!important;
+        }
+    }
+}

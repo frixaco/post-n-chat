@@ -6,10 +6,12 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server);
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const cors = require('cors')
 
 // FOR PRODUCTION
 // app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
 
+app.use(cors())
 app.use(express.json());
 app.use(cookieParser());
 
