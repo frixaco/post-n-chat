@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import './App.scss';
 
 import { connect } from 'react-redux';
 import { logoutUser } from './redux/user/userActions';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Home from './pages/Home/Home';
+// import Home from './pages/Home/Home';
 import Profile from './pages/Profile/Profile';
 import LoginRegister from './pages/LoginRegister/LoginRegister';
 import socket from './initSocket';
+import Spinner from './components/Spinner/Spinner';
 
+const Home = React.lazy(() => import('./pages/Home/Home'))
 function App({ username, isLoggedIn, validUntil, logoutUser }) {
   useEffect(() => {
     if (isLoggedIn) {
@@ -28,7 +30,11 @@ function App({ username, isLoggedIn, validUntil, logoutUser }) {
     <div className="App">
       <Switch>
         <Route exact path="/">
-          {isLoggedIn ? <Home /> : <Redirect to='/login' />}
+          {isLoggedIn ? (
+            <Suspense fallback={<Spinner />}>
+              <Home />
+            </Suspense>
+          ) : <Redirect to='/login' />}
         </Route>
         <Route path="/login">
           {isLoggedIn ? <Redirect to='/' /> : <LoginRegister />}

@@ -36,7 +36,7 @@ function Posts({ username, fetchPostsAsync, items }) {
                 </div>
             </div>
             <NewPostModal />
-            <Suspense fallback={Spinner}>
+            <Suspense fallback={<Spinner />}>
                 <ListPosts filteredPosts={filteredPosts} />
             </Suspense>
         </div>

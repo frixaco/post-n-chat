@@ -4,16 +4,42 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { connect } from 'react-redux';
 import { loginUserAsync } from '../../redux/user/userActions';
+import { validateForm } from '../validators-utils';
 
 function Login({ loading, loginUserAsync }) {
-    const [form, setForm] = useState({ username: '', password: '' });
+    const [form, setForm] = useState({
+        username: '',
+        password: '',
+        errors: {
+            username: '',
+            password: ''
+        }
+    });
 
     const fillForm = e => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target
+        let errors = form.errors
+        switch (name) {
+            case 'username':
+                errors.username =
+                    value.length < 5
+                        ? 'Full Name must be at least 5 characters long!'
+                        : '';
+                break;
+            case 'password':
+                errors.password =
+                    value.length < 6
+                        ? 'Password must be at least 6 characters long!'
+                        : '';
+                break;
+            default:
+                break;
+        }
+        setForm({ ...form, errors, [name]: value });
     }
 
     const loginOnEnter = e => {
-        if (e.key === 'Enter') {
+        if (validateForm(form.errors) && e.key === 'Enter') {
             toast.info('Logging in...', {
                 position: "top-right",
                 autoClose: 1000,
@@ -25,23 +51,30 @@ function Login({ loading, loginUserAsync }) {
                 transition: Slide
             });
             loginUserAsync(form);
-            setForm({ username: '', password: '' })
+            setForm({ username: '', password: '', errors: { username: '', password: '' } })
+        } else {
+            console.log('Invalid form')
         }
     }
 
     const handleLogin = e => {
-        toast.info('Logging in...', {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
-            transition: Slide
-        });
-        loginUserAsync(form);
-        setForm({ username: '', password: '' })
+        if (validateForm(form.errors)) {
+            toast.info('Logging in...', {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                transition: Slide
+            });
+            loginUserAsync(form);
+            setForm({ username: '', password: '', errors: { username: '', password: '' } })
+        } else {
+            console.error('Invalid Form')
+        }
+
     }
 
     return (
@@ -52,26 +85,34 @@ function Login({ loading, loginUserAsync }) {
                     <hr />
                 </div>
                 <form name='form1' className="form-group">
-                    <label forhtml="username">Username</label>
-                    <input
-                        name='username'
-                        value={form.username}
-                        onChange={fillForm}
-                        placeholder='Username'
-                        type='text'
-                        className="form-control"
-                    />
+                    <div className="input-section">
+                        <label forhtml="username">Username</label>
+                        <input
+                            name='username'
+                            value={form.username}
+                            onChange={fillForm}
+                            placeholder='Username'
+                            type='text'
+                            className="form-control"
+                        />
+                        {form.errors.username.length > 0 &&
+                            <span className='error'>{form.errors.username}</span>}
+                    </div>
 
-                    <label forhtml="password">Password</label>
-                    <input
-                        name='password'
-                        value={form.password}
-                        onChange={fillForm}
-                        placeholder='Password'
-                        type='password'
-                        className="form-control"
-                        onKeyDown={loginOnEnter}
-                    />
+                    <div className="input-section">
+                        <label forhtml="password">Password</label>
+                        <input
+                            name='password'
+                            value={form.password}
+                            onChange={fillForm}
+                            placeholder='Password'
+                            type='password'
+                            className="form-control"
+                            onKeyDown={loginOnEnter}
+                        />
+                        {form.errors.password.length > 0 &&
+                            <span className='error'>{form.errors.password}</span>}
+                    </div>
                 </form>
 
                 <button

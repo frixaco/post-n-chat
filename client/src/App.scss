@@ -420,3 +420,10 @@ $bg-light-gray: #F8F9F8;
         color: rgb(35, 38, 41);
     }
 }
+.input-section {
+    margin: 10px;
+    .error {
+        font-size: .7rem;
+        color: red;
+    }
+}
