@@ -46,9 +46,9 @@ function Register({ loading }) {
         setForm({ ...form, errors, [name]: value });
     }
 
-    const registerOnEnter = async e => {
+    const registerUser = async e => {
         try {
-            if (validateForm(form.errors) && e.key === 'Enter') {
+            if (validateForm(form.errors) && (e.key === 'Enter' || e.key === undefined)) {
                 toast.info('Registering...', {
                     position: "top-right",
                     autoClose: 1000,
@@ -77,51 +77,18 @@ function Register({ loading }) {
                         password: '',
                     }
                 })
-            } else {
-                console.log('Invalid form');
             }
         } catch (err) {
-            console.log(err.message)
-        }
-
-    }
-
-    const registerUser = async () => {
-        try {
-            if (validateForm(form.errors)) {
-                toast.info('Registering...', {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: true,
-                    closeOnClick: false,
-                    pauseOnHover: false,
-                    draggable: false,
-                    progress: undefined,
-                    transition: Slide
-                });
-                await Axios.post('/auth/register', form)
-                toast.success('Registration success!', {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: true,
-                    closeOnClick: false,
-                    pauseOnHover: false,
-                    draggable: false,
-                    progress: undefined,
-                    transition: Slide
-                });
-                setForm({
-                    username: '', email: '', password: '', errors: {
-                        username: '',
-                        email: '',
-                        password: '',
-                    }
-                })
-            } else {
-                console.log('Invalid Form');
-            }
-        } catch (err) {
-            console.log(err.message)
+            toast.error('User exists!', {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                transition: Slide
+            });
         }
     }
 
@@ -168,7 +135,7 @@ function Register({ loading }) {
                             placeholder='Password'
                             type='password'
                             className="form-control"
-                            onKeyDown={registerOnEnter}
+                            onKeyDown={registerUser}
                         />
                         {form.errors.password.length > 0 &&
                             <span className='error'>{form.errors.password}</span>}

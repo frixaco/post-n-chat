@@ -1,7 +1,6 @@
 import React from 'react'
 
 function MyPosts({ myposts }) {
-    console.log(myposts);
     return (
         <>
             <h3 className='text-center bg-light py-4'>MY POSTS</h3>

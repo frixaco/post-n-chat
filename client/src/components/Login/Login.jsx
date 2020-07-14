@@ -38,27 +38,8 @@ function Login({ loading, loginUserAsync }) {
         setForm({ ...form, errors, [name]: value });
     }
 
-    const loginOnEnter = e => {
-        if (validateForm(form.errors) && e.key === 'Enter') {
-            toast.info('Logging in...', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                transition: Slide
-            });
-            loginUserAsync(form);
-            setForm({ username: '', password: '', errors: { username: '', password: '' } })
-        } else {
-            console.log('Invalid form')
-        }
-    }
-
     const handleLogin = e => {
-        if (validateForm(form.errors)) {
+        if (validateForm(form.errors) && (e.key === 'Enter' || e.key === undefined)) {
             toast.info('Logging in...', {
                 position: "top-right",
                 autoClose: 1000,
@@ -71,10 +52,7 @@ function Login({ loading, loginUserAsync }) {
             });
             loginUserAsync(form);
             setForm({ username: '', password: '', errors: { username: '', password: '' } })
-        } else {
-            console.error('Invalid Form')
         }
-
     }
 
     return (
@@ -108,7 +86,7 @@ function Login({ loading, loginUserAsync }) {
                             placeholder='Password'
                             type='password'
                             className="form-control"
-                            onKeyDown={loginOnEnter}
+                            onKeyDown={handleLogin}
                         />
                         {form.errors.password.length > 0 &&
                             <span className='error'>{form.errors.password}</span>}
