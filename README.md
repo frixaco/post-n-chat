@@ -15,5 +15,3 @@ to install all npm packages
 ### `npm start` in `backend` folder
 
 ### `npm start` in `client` folder
-
-Concurrent start of project will be added in the future
