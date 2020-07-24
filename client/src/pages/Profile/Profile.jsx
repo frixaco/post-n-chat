@@ -1,124 +1,108 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux';
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
-import { updateUserAsync } from '../../redux/user/userActions';
-import ProfileNavBar from '../../components/Navbars/ProfileNavBar';
-import MyPosts from '../../components/MyPosts/MyPosts';
+import { updateUserAsync } from "../../redux/user/userActions";
+import MyPosts from "../../components/MyPosts/MyPosts";
+import ProfileNavBar from "../../components/Navbars/ProfileNavBar";
 
 function Profile({ username, email, areFetching, myposts, updateUserAsync }) {
-    const [newUsername, setNewUsername] = useState('')
-    const [newEmail, setNewEmail] = useState('')
-    const [newPassword, setNewPassword] = useState('')
+  const [newUsername, setNewUsername] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
-    return (
-        <div className="profile-page">
-            <ProfileNavBar username={username} />
-
-            {username === 'GuestUser' ? (
-                <div className="alert alert-warning text-center" role="alert">
-                    GuestUsers cannot edit profile details
-                </div>
-            ) : null}
-            <section className="profile-section">
-                <div className="section-title">
-                    <h2 className="title">Username</h2>
-                </div>
-                <div className="input-groups">
-                    <div className="input-group">
-                        <div className="input-field">
-                            <div className="label">Current username:</div>
-                            <div className="value">{username}</div>
-                        </div>
-                    </div>
-                    <div className="input-group">
-                        <div className="input-field">
-                            <div className="label">New username:</div>
-                            <input
-                                value={newUsername}
-                                onChange={e => setNewUsername(e.target.value)}
-                                disabled={username === 'GuestUser' ? true : false}
-                                className="value" type="text" />
-                        </div>
-                    </div>
-                    <div className="input-group">
-                        <div className="input-field">
-                            <button onClick={() => updateUserAsync({
-                                key: 'username',
-                                value: newUsername
-                            })} className="save-btn btn btn-secondary">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="profile-section">
-                <div className="section-title">
-                    <h2 className="title">Email</h2>
-                </div>
-                <div className="input-groups">
-                    <div className="input-group">
-                        <div className="input-field">
-                            <div className="label">Current email:</div>
-                            <div className="value">{email}</div>
-                        </div>
-                    </div>
-                    <div className="input-group">
-                        <div className="input-field">
-                            <div className="label">New email:</div>
-                            <input
-                                value={newEmail}
-                                onChange={e => setNewEmail(e.target.value)}
-                                disabled={username === 'GuestUser' ? true : false}
-                                className="value" type="text" />
-                        </div>
-                    </div>
-                    <div className="input-group">
-                        <div className="input-field">
-                            <button onClick={() => updateUserAsync({
-                                key: 'email',
-                                value: newEmail
-                            })} className="save-btn btn btn-secondary">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="profile-section">
-                <div className="section-title">
-                    <h2 className="title">Password</h2>
-                </div>
-                <div className="input-groups">
-                    <div className="input-group">
-                        <div className="input-field">
-                            <div className="label">New password:</div>
-                            <input
-                                value={newPassword}
-                                onChange={e => setNewPassword(e.target.value)}
-                                disabled={username === 'GuestUser' ? true : false}
-                                className="value" type="text" />
-                        </div>
-                    </div>
-                    <div className="input-group">
-                        <div className="input-field">
-                            <button onClick={() => updateUserAsync({
-                                key: 'password',
-                                value: newPassword
-                            })} className="save-btn btn btn-secondary">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <MyPosts loading={areFetching} myposts={myposts} />
+  return (
+    <main className="profile-page-container">
+      <ProfileNavBar username={username} />
+      <div className="profile-username">
+        <h3>{username}</h3>
+      </div>
+      {username === "GuestUser" ? (
+        <div className="alert">GuestUsers cannot edit profile details</div>
+      ) : null}
+      <div className="profile-details-card">
+        <div className="details-edit">
+          <p>{username}</p>
+          <input
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
+            disabled={username === "GuestUser" ? true : false}
+            type="text"
+          />
+          <button
+            onClick={() =>
+              updateUserAsync({
+                key: "username",
+                value: newUsername,
+              })
+            }
+          >
+            Save
+          </button>
         </div>
-    )
+        <div className="detail">
+          <p>Username</p>
+        </div>
+      </div>
+      <div className="profile-details-card">
+        <div className="details-edit">
+          <p>{email}</p>
+          <input
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            disabled={username === "GuestUser" ? true : false}
+            type="email"
+          />
+          <button
+            onClick={() =>
+              updateUserAsync({
+                key: "email",
+                value: newEmail,
+              })
+            }
+          >
+            Save
+          </button>
+        </div>
+        <div className="detail">
+          <p>Email</p>
+        </div>
+      </div>
+      <div className="profile-details-card">
+        <div className="details-edit">
+          <input
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            disabled={username === "GuestUser" ? true : false}
+            type="password"
+          />
+          <button
+            onClick={() =>
+              updateUserAsync({
+                key: "password",
+                value: newPassword,
+              })
+            }
+          >
+            Save
+          </button>
+        </div>
+        <div className="detail">
+          <p>Password</p>
+        </div>
+      </div>
+      <MyPosts loading={areFetching} myposts={myposts} />
+    </main>
+  );
 }
 
-const mapStateToProps = ({ user: { username, email }, posts: { items, areFetching } }) => ({
-    myposts: items.filter(post => post.author === username),
-    username,
-    email,
-    areFetching
-})
+const mapStateToProps = ({
+  user: { username, email },
+  posts: { items, areFetching },
+}) => ({
+  myposts: items.filter((post) => post.author === username),
+  username,
+  email,
+  areFetching,
+});
 
 export default connect(mapStateToProps, { updateUserAsync })(Profile);

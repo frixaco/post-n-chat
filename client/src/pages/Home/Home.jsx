@@ -6,22 +6,12 @@ import HomeNavBar from "../../components/Navbars/HomeNavBar";
 
 function Home() {
   return (
-    <div className="home-container">
+    <div class="home-page-container">
       <HomeNavBar />
-      <div className="posts-chat-container">
+      <main>
         <Posts />
         <Chat />
-      </div>
-      <footer className="bg-light text-center py-2">
-        <a
-          rel="noopener noreferrer"
-          target="_blank"
-          className="github"
-          href="https://github.com/frixaco/portfolio-project-1-social"
-        >
-          <i className="fab fa-github fa-3x"></i>
-        </a>
-      </footer>
+      </main>
     </div>
   );
 }

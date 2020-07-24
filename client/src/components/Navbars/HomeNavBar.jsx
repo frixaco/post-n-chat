@@ -1,33 +1,44 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux';
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { logoutUser } from '../../redux/user/userActions';
-import socket from '../../initSocket';
+import { logoutUser } from "../../redux/user/userActions";
+import socket from "../../initSocket";
 
 function HomeNavBar({ username, logoutUser }) {
-    const handleLogout = () => {
-        socket.emit('user_disconnected', username)
-        logoutUser()
-    }
+  const handleLogout = () => {
+    socket.emit("user_disconnected", username);
+    logoutUser();
+  };
 
-    return (
-        <nav className="home-nav">
-            <Link className="link btn btn-sm btn-outline-secondary" to={`/${username}`}>
-                <i style={{ fontSize: 20, }} className="fas fa-user-edit fa-2x"></i>
-                <div>Edit Profile</div>
-            </Link>
-            <div className="nav-profile">
-                {username}
-            </div>
-            <div onClick={handleLogout} className="nav-logout btn btn-sm btn-outline-secondary">
-                <div>Logout</div>
-                <i style={{ fontSize: 20, }} className="fas fa-sign-out-alt fa-2x"></i>
-            </div>
-        </nav>
-    )
+  return (
+    <nav>
+      <div className="left-nav">
+        <Link to={`/profile`}>
+          <div className="icon">
+            <i className="fas fa-user-circle"></i>
+          </div>
+        </Link>
+        <h4>Welcome, {username}!</h4>
+      </div>
+      <div className="right-nav">
+        <a
+          target="_blank"
+          href="https://github.com/frixaco/portfolio-project-1"
+          rel="noopener noreferrer"
+        >
+          <div className="icon">
+            <i className="fab fa-github"></i>
+          </div>
+        </a>
+        <div onClick={handleLogout} className="icon">
+          <i className="fas fa-sign-out-alt"></i>
+        </div>
+      </div>
+    </nav>
+  );
 }
 
-const mapStateToProps = state => ({ username: state.user.username })
+const mapStateToProps = (state) => ({ username: state.user.username });
 
-export default connect(mapStateToProps, { logoutUser })(HomeNavBar)
+export default connect(mapStateToProps, { logoutUser })(HomeNavBar);

@@ -3,6 +3,7 @@ const auth = require("../middleware/auth");
 const User = require("../models/User");
 const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
+const { update } = require("../models/User");
 
 router.get("/", auth, async (req, res) => {
   try {
@@ -18,10 +19,19 @@ router.post("/:updateKey", auth, async (req, res) => {
     const user = await User.findById(req.user.userID);
     const updateParam = req.params.updateKey;
 
+    if (updateParam === "username") {
+      await Post.updateMany(
+        { author: user.username },
+        { author: req.body[updateParam] }
+      );
+      user[updateParam] = req.body[updateParam];
+    }
+
     if (updateParam === "password") {
       const updatedPassword = await bcrypt.hash(req.body[updateParam], 8);
       user.password = updatedPassword;
-    } else {
+    }
+    if (updateParam === "email") {
       user[updateParam] = req.body[updateParam];
     }
     await user.save();
