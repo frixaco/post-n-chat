@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 
 import { connect } from "react-redux";
@@ -12,6 +12,7 @@ function getRandomInt(min, max) {
 }
 
 function PostPage({ username, items, editPostAsync, deletePostAsync }) {
+  const history = useHistory();
   const { id } = useParams();
   const [editMode, setEditMode] = useState(false);
   const post = items.find((item) => item._id === id);
@@ -59,11 +60,11 @@ function PostPage({ username, items, editPostAsync, deletePostAsync }) {
 
   return (
     <div className="post-page-container">
-      <Link to="/">
-        <div className="icon">
-          <i className="fas fa-arrow-left"></i>
-        </div>
-      </Link>
+      {/* <Link to="/"> */}
+      <div onClick={() => history.goBack()} className="icon">
+        <i className="fas fa-arrow-left"></i>
+      </div>
+      {/* </Link> */}
 
       {editMode ? (
         <input
