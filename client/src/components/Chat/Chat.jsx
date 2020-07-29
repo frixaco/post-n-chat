@@ -55,7 +55,12 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
 
   return (
     <section class="chat-section">
-      <h4>Live global chat</h4>
+      <div className="chat-header">
+        <h4>Live global chat</h4>
+        <p>
+          Online: <span>{usersOnline.length}</span>
+        </p>
+      </div>
       {/* USERS ONLINE: WHO JOINED AND WHO LEFT */}
       <div ref={messagesRef} class="chat-history">
         {chatHistory.map((message, idx) => (
@@ -80,6 +85,11 @@ function Chat({ usersOnline, chatHistory, username, newMessage, userOnline }) {
           onKeyDown={sendMsgOnEnter}
         />
         <i onClick={onSendMessage} class="fas fa-paper-plane"></i>
+      </div>
+      <div className="users-online">
+        {usersOnline.map((user, i) => (
+          <span>{user}</span>
+        ))}
       </div>
     </section>
   );

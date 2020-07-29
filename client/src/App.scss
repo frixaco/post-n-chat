@@ -232,9 +232,24 @@ body {
         margin-top: 20px;
       }
 
-      h4 {
-        margin: 15px 0 15px;
-        text-align: center;
+      .chat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+
+        h4 {
+          margin: 15px 0 15px;
+          text-align: center;
+        }
+        p {
+          span {
+            font-weight: bold;
+            background: #0acc34;
+            padding: 3px 7px;
+            border-radius: 50%;
+          }
+        }
       }
       .chat-history {
         height: 400px;
@@ -281,6 +296,20 @@ body {
             background: #747474;
             transition: 0.2s;
           }
+        }
+      }
+      .users-online {
+        max-height: 40px;
+        margin: 10px 10px 5px;
+        display: flex;
+        flex-wrap: wrap;
+        overflow-y: scroll;
+        span {
+          font-size: 0.9rem;
+          padding: 2px 4px;
+          margin: 1px;
+          background: #0acc34;
+          border-radius: 10px;
         }
       }
     }
