@@ -1,4 +1,4 @@
-## Portfolio Project #1:
+## Web application made with React, Redux, socket.io, Express, Node.js, MongoDB and JWT :
 Overview:
 1. Posts: add random image from picsum.com, edit, delete (only authors)
 2. Chat (global): send/receive messages, display currently online users
