@@ -1,0 +1,8 @@
+{
+  "short_name": "Portfolio Project #1",
+  "name": "Portfolio Project #1 - Social App",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
