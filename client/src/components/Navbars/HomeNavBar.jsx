@@ -24,7 +24,7 @@ function HomeNavBar({ username, logoutUser }) {
       <div className="right-nav">
         <a
           target="_blank"
-          href="https://github.com/frixaco/portfolio-project-1"
+          href="https://github.com/frixaco/post-n-chat"
           rel="noopener noreferrer"
         >
           <div className="icon">
