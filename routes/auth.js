@@ -43,13 +43,13 @@ router.post("/login", async (req, res) => {
 
     const date = new Date();
     const currTime = date.getTime() / 1000;
-    const validUntil = currTime + 180;
+    const validUntil = currTime + 720;
 
     const token = jwt.sign({ userID: candidate.id }, process.env.jwtSecret, {
-      expiresIn: 180,
+      expiresIn: 720,
     });
 
-    res.cookie("token", token, { maxAge: 180000, httpOnly: true });
+    res.cookie("token", token, { maxAge: 720000, httpOnly: true });
     res.json({
       username: candidate.username,
       email: candidate.email,
