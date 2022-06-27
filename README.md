@@ -1,3 +1,5 @@
+My first ever pet project | Jul 1, 2020 - Aug 9, 2020
+
 ## Web application made with React, Redux, socket.io, Express, Node.js, MongoDB and JWT :
 Overview:
 1. Posts: add random image from picsum.com, edit, delete (only authors)
